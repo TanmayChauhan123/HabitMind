@@ -50,7 +50,7 @@ export default function Landing() {
           <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 text-white flex items-center justify-center shadow-lg shadow-brand-500/30">
             <Sparkles size={18} />
           </div>
-          <span className="font-semibold text-lg">AI Habit Tracker</span>
+          <span className="font-semibold text-lg">HabitMind</span>
         </div>
         <nav className="flex items-center gap-2">
           <button
@@ -118,8 +118,9 @@ export default function Landing() {
               ].map((h, i) => (
                 <div
                   key={i}
-                  className={`flex items-center gap-3 rounded-xl glass p-3 ${h.done ? "ring-1 ring-brand-500/30" : ""
-                    }`}
+                  className={`flex items-center gap-3 rounded-xl glass p-3 ${
+                    h.done ? "ring-1 ring-brand-500/30" : ""
+                  }`}
                 >
                   <span className="w-9 h-9 rounded-lg bg-brand-500/15 flex items-center justify-center">
                     {h.icon}
@@ -130,10 +131,11 @@ export default function Landing() {
                     {h.streak}
                   </div>
                   <div
-                    className={`w-7 h-7 rounded-full flex items-center justify-center ${h.done
-                      ? "bg-gradient-to-br from-brand-500 to-brand-700 text-white shadow-md shadow-brand-500/30"
-                      : "border-2 border-[var(--surface-border)]"
-                      }`}
+                    className={`w-7 h-7 rounded-full flex items-center justify-center ${
+                      h.done
+                        ? "bg-gradient-to-br from-brand-500 to-brand-700 text-white shadow-md shadow-brand-500/30"
+                        : "border-2 border-[var(--surface-border)]"
+                    }`}
                   >
                     {h.done && <CheckCircle2 size={14} />}
                   </div>
@@ -237,7 +239,7 @@ export default function Landing() {
       </section>
 
       <footer className="max-w-6xl mx-auto px-6 py-8 text-center text-xs text-faint border-t divider">
-        Built with MERN · AI Habit Tracker © {new Date().getFullYear()}
+        Built with MERN · HabitMind © {new Date().getFullYear()}
       </footer>
     </div>
   );

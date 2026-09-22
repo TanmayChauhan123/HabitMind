@@ -1,7 +1,7 @@
 {
-  "name": "ai-habit-tracker-backend",
+  "name": "habitmind-backend",
   "version": "1.0.0",
-  "description": "MERN Habit Tracker with AI Insights - Backend",
+  "description": "HabitMind - AI-powered Habit Tracker Backend",
   "main": "server.js",
   "type": "module",
   "scripts": {

@@ -23,7 +23,7 @@ export default function MobileNav() {
           <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-500 to-brand-700 text-white flex items-center justify-center shadow-md shadow-brand-500/30">
             <Sparkles size={16} />
           </div>
-          <div className="font-semibold">AI Habit Tracker</div>
+          <div className="font-semibold">HabitMind</div>
         </div>
         <div className="flex items-center gap-2">
           <button
@@ -56,9 +56,8 @@ export default function MobileNav() {
             key={to}
             to={to}
             className={({ isActive }) =>
-              `flex flex-col items-center gap-0.5 px-4 py-1.5 rounded-lg text-xs ${isActive
-                ? "text-brand-700 dark:text-brand-300"
-                : "text-faint"
+              `flex flex-col items-center gap-0.5 px-4 py-1.5 rounded-lg text-xs ${
+                isActive ? "text-brand-700 dark:text-brand-300" : "text-faint"
               }`
             }
           >

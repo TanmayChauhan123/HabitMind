@@ -45,14 +45,11 @@ export default function Register() {
       </button>
 
       <div className="w-full max-w-md">
-        <Link
-          to="/"
-          className="flex items-center justify-center gap-2 mb-6"
-        >
+        <Link to="/" className="flex items-center justify-center gap-2 mb-6">
           <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 text-white flex items-center justify-center shadow-lg shadow-brand-500/30">
             <Sparkles size={18} />
           </div>
-          <span className="font-semibold text-lg">AI Habit Tracker</span>
+          <span className="font-semibold text-lg">HabitMind</span>
         </Link>
 
         <div className="card p-7">
@@ -111,7 +108,10 @@ export default function Register() {
 
           <div className="text-center mt-5 text-sm text-soft">
             Already have an account?{" "}
-            <Link to="/login" className="text-brand-600 dark:text-brand-300 font-medium">
+            <Link
+              to="/login"
+              className="text-brand-600 dark:text-brand-300 font-medium"
+            >
               Log in
             </Link>
           </div>
