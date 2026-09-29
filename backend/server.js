@@ -6,6 +6,7 @@ import { connectDB } from "./config/db.js";
 import authRoutes from "./routes/auth.js";
 import habitRoutes from "./routes/habits.js";
 import logRoutes from "./routes/logs.js";
+import aiRoutes from "./routes/AI.js";
 
 import { notFound, errorHandler } from "./middleware/errorHandler.js";
 
