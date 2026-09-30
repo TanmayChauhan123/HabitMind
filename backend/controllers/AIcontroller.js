@@ -74,15 +74,18 @@ export const suggestHabits = async (req, res) => {
       user: userMsg,
     });
 
+    console.log("AI SUGGESTION RESPONSE:", content);
+    
+
     let suggestions = [];
     try {
       const parsed = JSON.parse(content.replace(/```json|```/g, "").trim());
-      suggestions = parsed.suggestions || [];
+      suggestions = parsed.habits || [];
     } catch {
       suggestions = [];
     }
 
-    if (!suggestions.length()) {
+    if (!suggestions.length) {
       suggestions = [
         {
           name: "Morning Exercise",
