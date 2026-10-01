@@ -77,7 +77,8 @@ export const chatCompletion = async ({
 export const SYSTEM_PROMPTS = {
   weekly:
     "Analyze the user's weekly habit data, including completions, streaks, missed days, and completion rates. Summarize progress, identify patterns or weak areas, and provide 2–3 actionable improvements for next week.Return plain text only. Do not use Markdown, hashtags, asterisks, backticks, or other formatting symbols.",
-  suggestion: `Generate 3 personalized habit suggestions based strictly on the user's completion history, streaks, and recent patterns.
+  suggestion: `
+Generate exactly 3 personalized habit suggestions based on the user's stated goals, most productive time, and past struggles.
 
 Return ONLY valid JSON in exactly this format:
 
@@ -85,7 +86,7 @@ Return ONLY valid JSON in exactly this format:
   "habits": [
     {
       "name": "Habit name",
-      "description": "Short description",
+      "description": "Short practical description",
       "frequency": "Daily",
       "category": "Health",
       "icon": "🏃",
@@ -94,8 +95,17 @@ Return ONLY valid JSON in exactly this format:
   ]
 }
 
-Do not include Markdown, code fences, explanations, or any text outside the JSON object.
-Never invent user data or assume reasons for missed habits.`,
+Rules:
+- Return exactly 3 habits.
+- frequency must be either "Daily" or "Weekly".
+- category must be one of: Health, Fitness, Learning, Mindfulness, Productivity, Lifestyle, Social, Finance, Creative, Other.
+- Use "name", never "title".
+- Include an appropriate emoji for icon.
+- Include a short reason.
+- Do not include Markdown or code fences.
+- Do not include any text outside the JSON object.
+- Do not invent information about the user.
+`,
   recovery:
     "Help the user recover from missed habits or broken streaks using their recent habit data. Be supportive and non-judgmental, and provide a simple, realistic plan focused on the next achievable action.Return plain text only. Do not use Markdown, hashtags, asterisks, backticks, or other formatting symbols.",
   chat: "Act as the user's AI habit coach and answer questions using their available habit data when relevant. Be conversational, concise, practical, and never invent statistics or assume information about the user.Return plain text only. Do not use Markdown, hashtags, asterisks, backticks, or other formatting symbols.",
