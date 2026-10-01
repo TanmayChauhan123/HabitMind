@@ -21,7 +21,11 @@ export default function Stats() {
       setLoading(true);
       try {
         const [statsRes, habitsRes] = await Promise.all([
-          api.get("/logs/stats"),
+          api.get("/logs/stats", {
+            params: {
+              end: format(new Date(), "yyyy-MM-dd"),
+            },
+          }),
           api.get("/habits"),
         ]);
         setStats(statsRes.data);
