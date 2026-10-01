@@ -25,16 +25,23 @@ export const createHabit = async (req, res) => {
       req.body;
 
     if (!name) {
-      return res.status(400).json({ message: "Habit name is required" });
+      return res.status(400).json({
+        message: "Habit name is required",
+      });
     }
 
-    const count = await Habit.countDocuments({ userId: req.user._id });
+    const normalizedFrequency = frequency ? frequency.toLowerCase() : "daily";
+
+    const count = await Habit.countDocuments({
+      userId: req.user._id,
+    });
+
     const habit = await Habit.create({
-      userId: req.user._id, // security purpose
+      userId: req.user._id,
       name,
       description,
       category,
-      frequency,
+      frequency: normalizedFrequency,
       targetDays,
       color,
       icon,
@@ -43,7 +50,11 @@ export const createHabit = async (req, res) => {
 
     res.status(201).json(habit);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    console.error("Create habit error:", err);
+
+    res.status(500).json({
+      message: err.message,
+    });
   }
 };
 

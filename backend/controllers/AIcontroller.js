@@ -85,7 +85,7 @@ export const suggestHabits = async (req, res) => {
       suggestions = (parsed.habits || []).map((h) => ({
         name: h.name || h.title || "Suggested Habit",
         description: h.description || "",
-        frequency: h.frequency || "Daily",
+        frequency: (h.frequency || "daily").toLowerCase(),
         category: h.category || "Other",
         icon: h.icon || "🎯",
         reason:
@@ -101,7 +101,7 @@ export const suggestHabits = async (req, res) => {
         {
           name: "Morning Exercise",
           description: "Start the day with a short workout or walk.",
-          frequency: "Daily",
+          frequency: "daily",
           category: "Health",
           icon: "🏃",
           reason: "Helps build a consistent and healthy morning routine.",
@@ -109,7 +109,7 @@ export const suggestHabits = async (req, res) => {
         {
           name: "Read for 20 Minutes",
           description: "Spend some time reading a book or learning material.",
-          frequency: "Daily",
+          frequency: "d",
           category: "Learning",
           icon: "📚",
           reason:
@@ -118,7 +118,7 @@ export const suggestHabits = async (req, res) => {
         {
           name: "Plan Tomorrow",
           description: "Take a few minutes to organize tasks for the next day.",
-          frequency: "Daily",
+          frequency: "daily",
           category: "Productivity",
           icon: "📝",
           reason: "Makes the next day more organized and reduces missed tasks.",

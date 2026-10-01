@@ -87,7 +87,7 @@ Return ONLY valid JSON in exactly this format:
     {
       "name": "Habit name",
       "description": "Short practical description",
-      "frequency": "Daily",
+      "frequency": "daily",
       "category": "Health",
       "icon": "🏃",
       "reason": "Why this habit is suitable"
@@ -97,7 +97,7 @@ Return ONLY valid JSON in exactly this format:
 
 Rules:
 - Return exactly 3 habits.
-- frequency must be either "Daily" or "Weekly".
+- frequency must be exactly "daily" or "weekly".
 - category must be one of: Health, Fitness, Learning, Mindfulness, Productivity, Lifestyle, Social, Finance, Creative, Other.
 - Use "name", never "title".
 - Include an appropriate emoji for icon.
