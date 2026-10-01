@@ -5,6 +5,7 @@ import {
   todayKey,
   last90Days,
   lastNDays,
+  lastNDaysFrom,
   calcStreak,
 } from "../utils/dateHelpers.js";
 
@@ -160,10 +161,18 @@ export const getAllStats = async (req, res) => {
       isArchived: false,
     });
 
-    const days = lastNDays(30);
+    // Frontend tells us what "today" is for the user.
+    // This prevents Render/UTC timezone differences.
+    const end = req.query.end || todayKey();
+
+    const days = lastNDaysFrom(end, 30);
+
     const logs = await HabitLog.find({
       userId: req.user._id,
-      completedDate: { $gte: days[0], $lte: days[days.length - 1] },
+      completedDate: {
+        $gte: days[0],
+        $lte: days[days.length - 1],
+      },
     });
 
     const perHabit = habits.map((h) => {
@@ -173,7 +182,8 @@ export const getAllStats = async (req, res) => {
         .map((l) => l.completedDate)
         .sort()
         .reverse();
-      const { current, longest } = calcStreak(keys);
+
+      const { current, longest } = calcStreak(keys, end);
 
       return {
         habitId: h._id,
@@ -187,7 +197,10 @@ export const getAllStats = async (req, res) => {
       };
     });
 
-    res.json({ perHabit, days });
+    res.json({
+      perHabit,
+      days,
+    });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
