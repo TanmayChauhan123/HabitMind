@@ -69,11 +69,18 @@ export const suggestHabits = async (req, res) => {
   try {
     const { goals, productiveTime, struggles } = req.body;
     const userMsg = `User goals: ${goals || "not provided"}\n Most productive time: ${productiveTime || "not provided"}\nPast struggles: ${struggles || "not provided"}\n\n Suggest 3 personalized habits now. Return JSON only`;
-    const { content } = await chatCompletion({
+    const { content, ok } = await chatCompletion({
       system: SYSTEM_PROMPTS.suggestion,
       user: userMsg,
       json: true,
     });
+
+    if (!ok) {
+      return res.status(503).json({
+        message:
+          "AI suggestions are temporarily unavailable. Please try again.",
+      });
+    }
 
     console.log("AI SUGGESTION RESPONSE:", content);
 
@@ -82,20 +89,22 @@ export const suggestHabits = async (req, res) => {
     try {
       const parsed = JSON.parse(content.replace(/```json|```/g, "").trim());
 
-      suggestions = (parsed.habits || []).map((h) => ({
-        name: h.name || h.title || "Suggested Habit",
+      const habits = Array.isArray(parsed) ? parsed : parsed.habits || [];
+
+      suggestions = habits.map((h) => ({
+        name: h.name || h.title || h.habit || "Suggested Habit",
         description: h.description || "",
-        frequency: (h.frequency || "daily").toLowerCase(),
+        frequency: h.frequency || "Daily",
         category: h.category || "Other",
         icon: h.icon || "🎯",
         reason:
           h.reason ||
+          h.benefit ||
           "This habit may help you build a more consistent routine.",
       }));
     } catch (err) {
       console.error("Failed to parse AI suggestions:", err.message);
     }
-
     if (!suggestions.length) {
       suggestions = [
         {

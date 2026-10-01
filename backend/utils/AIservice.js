@@ -78,16 +78,16 @@ export const SYSTEM_PROMPTS = {
   weekly:
     "Analyze the user's weekly habit data, including completions, streaks, missed days, and completion rates. Summarize progress, identify patterns or weak areas, and provide 2–3 actionable improvements for next week.Return plain text only. Do not use Markdown, hashtags, asterisks, backticks, or other formatting symbols.",
   suggestion: `
-Generate exactly 3 personalized habit suggestions based on the user's stated goals, most productive time, and past struggles.
+Generate exactly 3 personalized habit suggestions.
 
-Return ONLY valid JSON in exactly this format:
+Return ONLY this JSON object:
 
 {
   "habits": [
     {
       "name": "Habit name",
       "description": "Short practical description",
-      "frequency": "daily",
+      "frequency": "Daily",
       "category": "Health",
       "icon": "🏃",
       "reason": "Why this habit is suitable"
@@ -96,15 +96,19 @@ Return ONLY valid JSON in exactly this format:
 }
 
 Rules:
+- The root must be an object containing "habits".
+- "habits" must be an array.
 - Return exactly 3 habits.
-- frequency must be exactly "daily" or "weekly".
-- category must be one of: Health, Fitness, Learning, Mindfulness, Productivity, Lifestyle, Social, Finance, Creative, Other.
-- Use "name", never "title".
-- Include an appropriate emoji for icon.
-- Include a short reason.
-- Do not include Markdown or code fences.
-- Do not include any text outside the JSON object.
-- Do not invent information about the user.
+- Every habit MUST contain all 6 fields:
+  name, description, frequency, category, icon, reason.
+- Use "name", never "habit" or "title".
+- frequency must be either "Daily" or "Weekly".
+- category must be one of:
+  Health, Fitness, Learning, Mindfulness, Productivity,
+  Lifestyle, Social, Finance, Creative, Other.
+- Do not return Markdown.
+- Do not return code fences.
+- Do not return explanations outside the JSON object.
 `,
   recovery:
     "Help the user recover from missed habits or broken streaks using their recent habit data. Be supportive and non-judgmental, and provide a simple, realistic plan focused on the next achievable action.Return plain text only. Do not use Markdown, hashtags, asterisks, backticks, or other formatting symbols.",
