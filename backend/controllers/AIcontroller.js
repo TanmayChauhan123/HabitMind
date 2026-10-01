@@ -72,6 +72,7 @@ export const suggestHabits = async (req, res) => {
     const { content } = await chatCompletion({
       system: SYSTEM_PROMPTS.suggestion,
       user: userMsg,
+      json: true,
     });
 
     console.log("AI SUGGESTION RESPONSE:", content);
