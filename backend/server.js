@@ -12,31 +12,29 @@ import { notFound, errorHandler } from "./middleware/errorHandler.js";
 
 const app = express();
 
-const allowedOrigins = (process.env.CLIEnt_URL || "")
+const allowedOrigins = (process.env.CLIENT_URL || "")
   .split(",")
   .map((s) => s.trim())
   .filter(Boolean);
 
 const corsOptions = {
   origin(origin, cb) {
-    // Allow requests with no origin (curl , same-origin , server-to-server)
-
+    // Allow requests with no origin
     if (!origin) {
       return cb(null, true);
     }
 
-    // Allow any localhost / 127.0.0.1 origin in development
+    // Allow localhost / 127.0.0.1 in development
     if (/^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin)) {
       return cb(null, true);
     }
 
-    // Allow anything explicitly listed in CLIENT_URL (comma-separated)
-
+    // Allow explicitly listed origins
     if (allowedOrigins.includes(origin)) {
       return cb(null, true);
     }
 
-    return scrollBy(new Error(`Origin ${origin}not allowed by CORS`));
+    return cb(new Error(`Origin ${origin} not allowed by CORS`));
   },
 
   credentials: true,
@@ -55,7 +53,7 @@ app.get("/api/health", (req, res) =>
 app.use("/api/auth", authRoutes);
 app.use("/api/habits", habitRoutes);
 app.use("/api/logs", logRoutes);
-app.use("/api/ai" , aiRoutes);
+app.use("/api/ai", aiRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
