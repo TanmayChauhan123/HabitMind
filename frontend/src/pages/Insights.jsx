@@ -30,6 +30,7 @@ import LoadingSpinner from "../components/LoadingSpinner.jsx";
 import Markdown from "../components/Markdown.jsx";
 import { weekKeysFor, streakFromKeys } from "../utils/dateHelpers.js";
 import { useTheme } from "../context/ThemeContext.jsx";
+import HabitIcon from "../components/HabitIcon.jsx";
 
 const PIE_COLORS = [
   "#f59e0b",
@@ -68,10 +69,7 @@ export default function Insights() {
   const [reportLoading, setReportLoading] = useState(false);
 
   const thisWeek = useMemo(() => weekKeysFor(new Date()), []);
-  const lastWeek = useMemo(
-    () => weekKeysFor(subDays(new Date(), 7)),
-    []
-  );
+  const lastWeek = useMemo(() => weekKeysFor(subDays(new Date(), 7)), []);
 
   useEffect(() => {
     (async () => {
@@ -114,7 +112,7 @@ export default function Insights() {
       setReportGeneratedAt(now);
       localStorage.setItem(
         REPORT_CACHE_KEY(thisWeek[0].key),
-        JSON.stringify({ content: res.data.content, generatedAt: now })
+        JSON.stringify({ content: res.data.content, generatedAt: now }),
       );
     } catch {
       setReport("Failed to generate the report. Please try again.");
@@ -126,15 +124,15 @@ export default function Insights() {
   // Aggregations
   const thisWeekKeys = useMemo(
     () => new Set(thisWeek.map((d) => d.key)),
-    [thisWeek]
+    [thisWeek],
   );
   const thisWeekLogs = useMemo(
     () => logs.filter((l) => thisWeekKeys.has(l.completedDate)),
-    [logs, thisWeekKeys]
+    [logs, thisWeekKeys],
   );
   const lastWeekLogs = useMemo(
     () => logs.filter((l) => !thisWeekKeys.has(l.completedDate)),
-    [logs, thisWeekKeys]
+    [logs, thisWeekKeys],
   );
 
   const totalSlots = habits.length * 7;
@@ -147,8 +145,8 @@ export default function Insights() {
   const deltaPct = totalLast
     ? Math.round(((totalDone - totalLast) / totalLast) * 100)
     : totalDone > 0
-    ? 100
-    : 0;
+      ? 100
+      : 0;
 
   const dailyData = thisWeek.map((d) => {
     const count = thisWeekLogs.filter((l) => l.completedDate === d.key).length;
@@ -157,10 +155,10 @@ export default function Insights() {
 
   const compareData = thisWeek.map((d, idx) => {
     const thisCount = thisWeekLogs.filter(
-      (l) => l.completedDate === d.key
+      (l) => l.completedDate === d.key,
     ).length;
     const lastCount = lastWeekLogs.filter(
-      (l) => l.completedDate === lastWeek[idx].key
+      (l) => l.completedDate === lastWeek[idx].key,
     ).length;
     return { label: d.label, "This week": thisCount, "Last week": lastCount };
   });
@@ -172,7 +170,7 @@ export default function Insights() {
       .filter((h) => !h.isArchived)
       .map((h) => {
         const done = thisWeekLogs.filter(
-          (l) => String(l.habitId) === String(h._id)
+          (l) => String(l.habitId) === String(h._id),
         ).length;
         const target = h.targetDays || 7;
         return {
@@ -214,7 +212,7 @@ export default function Insights() {
   }, [habits, logs]);
 
   const activeStreaks = Object.values(streakBoard).filter(
-    (s) => s.current > 0
+    (s) => s.current > 0,
   ).length;
 
   if (loading) return <LoadingSpinner full />;
@@ -225,9 +223,12 @@ export default function Insights() {
       delta > 0
         ? "text-emerald-500 bg-emerald-500/10"
         : delta < 0
-        ? "text-rose-500 bg-rose-500/10"
-        : "text-faint bg-[var(--chip-bg)]";
-    const label = delta === 0 ? "no change" : `${delta > 0 ? "+" : ""}${delta} (${deltaPct > 0 ? "+" : ""}${deltaPct}%)`;
+          ? "text-rose-500 bg-rose-500/10"
+          : "text-faint bg-[var(--chip-bg)]";
+    const label =
+      delta === 0
+        ? "no change"
+        : `${delta > 0 ? "+" : ""}${delta} (${deltaPct > 0 ? "+" : ""}${deltaPct}%)`;
     return (
       <span
         className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium ${color}`}
@@ -349,7 +350,7 @@ export default function Insights() {
           <div className="mt-1 truncate flex items-center gap-1.5">
             {topHabit?.done ? (
               <>
-                <span className="text-xl">{topHabit.habit.icon}</span>
+                <HabitIcon icon={topHabit.habit.icon} size={22} />
                 <span className="font-medium truncate">
                   {topHabit.habit.name}
                 </span>
@@ -400,16 +401,18 @@ export default function Insights() {
                   }}
                   contentStyle={tooltipStyle}
                 />
-                <Bar dataKey="count" fill="url(#day-bar)" radius={[6, 6, 0, 0]} />
+                <Bar
+                  dataKey="count"
+                  fill="url(#day-bar)"
+                  radius={[6, 6, 0, 0]}
+                />
               </BarChart>
             </ResponsiveContainer>
           </div>
         </div>
 
         <div className="card p-5">
-          <div className="text-sm font-medium mb-3">
-            This week vs last week
-          </div>
+          <div className="text-sm font-medium mb-3">This week vs last week</div>
           <div style={{ width: "100%", height: 240 }}>
             <ResponsiveContainer>
               <BarChart data={compareData}>
@@ -493,7 +496,9 @@ export default function Insights() {
                 <div key={habit._id}>
                   <div className="flex items-center justify-between text-sm mb-1">
                     <div className="flex items-center gap-2 min-w-0">
-                      <span className="text-lg shrink-0">{habit.icon}</span>
+                      <span className="text-lg shrink-0">
+                        <HabitIcon icon={habit.icon} size={20} />
+                      </span>
                       <span className="truncate">{habit.name}</span>
                     </div>
                     <span className="text-muted text-xs">
@@ -548,7 +553,7 @@ export default function Insights() {
                         color: h.color,
                       }}
                     >
-                      {h.icon}
+                      <HabitIcon icon={h.icon} size={20} />
                     </span>
                     <div className="min-w-0 flex-1">
                       <div className="text-sm truncate">{h.name}</div>

@@ -10,6 +10,7 @@ import {
   ArchiveRestore,
   Sparkles,
 } from "lucide-react";
+import HabitIcon from "../components/HabitIcon.jsx";
 import api from "../api/axios.js";
 import Modal from "../components/Modal.jsx";
 import HabitForm from "../components/HabitForm.jsx";
@@ -51,7 +52,7 @@ export default function Habits() {
       for (const h of habitsRes.data) byId[h._id] = [];
       for (const l of rangeRes.data) {
         if (!byId[l.habitId]) byId[l.habitId] = [];
-        byId[l.habitId].push(l.completedDate);
+        byId[l.habitId].push(String(l.completedDate).slice(0, 10));
       }
       for (const k of Object.keys(byId)) byId[k] = byId[k].sort().reverse();
       setLogsByHabit(byId);
@@ -83,7 +84,9 @@ export default function Habits() {
     try {
       if (editing) {
         const res = await api.put(`/habits/${editing._id}`, data);
-        setHabits((hs) => hs.map((h) => (h._id === res.data._id ? res.data : h)));
+        setHabits((hs) =>
+          hs.map((h) => (h._id === res.data._id ? res.data : h)),
+        );
       } else {
         const res = await api.post("/habits", data);
         setHabits((hs) => [...hs, res.data]);
@@ -210,15 +213,15 @@ export default function Habits() {
             {showArchived
               ? "Nothing archived"
               : habits.length === 0
-              ? "No habits yet"
-              : "No habits match your filter"}
+                ? "No habits yet"
+                : "No habits match your filter"}
           </div>
           <div className="text-sm text-muted mt-1">
             {showArchived
               ? "Archived habits keep their history but stay out of your daily list."
               : habits.length === 0
-              ? "Start small — something you can do in under 5 minutes."
-              : "Try clearing your search or category filter."}
+                ? "Start small — something you can do in under 5 minutes."
+                : "Try clearing your search or category filter."}
           </div>
           {!showArchived && habits.length === 0 && (
             <button
@@ -246,7 +249,7 @@ export default function Habits() {
                   className="w-11 h-11 rounded-xl flex items-center justify-center text-xl shrink-0"
                   style={{ background: `${h.color}26`, color: h.color }}
                 >
-                  {h.icon}
+                  <HabitIcon icon={h.icon} size={20} />
                 </div>
 
                 <div className="flex-1 min-w-0">

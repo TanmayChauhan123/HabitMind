@@ -1,4 +1,4 @@
-import { GoogleGenAI } from "@google/genai";
+import { GoogleGenAI, Type } from "@google/genai";
 
 let client = null;
 
@@ -56,6 +56,61 @@ export const chatCompletion = async ({
         temperature,
         ...(json && {
           responseMimeType: "application/json",
+          responseSchema: {
+            type: Type.OBJECT,
+            properties: {
+              habits: {
+                type: Type.ARRAY,
+                minItems: 3,
+                maxItems: 3,
+                items: {
+                  type: Type.OBJECT,
+                  properties: {
+                    name: {
+                      type: Type.STRING,
+                    },
+                    description: {
+                      type: Type.STRING,
+                    },
+                    frequency: {
+                      type: Type.STRING,
+                      enum: ["Daily", "Weekly"],
+                    },
+                    category: {
+                      type: Type.STRING,
+                      enum: [
+                        "Health",
+                        "Fitness",
+                        "Learning",
+                        "Mindfulness",
+                        "Productivity",
+                        "Lifestyle",
+                        "Social",
+                        "Finance",
+                        "Creative",
+                        "Other",
+                      ],
+                    },
+                    icon: {
+                      type: Type.STRING,
+                    },
+                    reason: {
+                      type: Type.STRING,
+                    },
+                  },
+                  required: [
+                    "name",
+                    "description",
+                    "frequency",
+                    "category",
+                    "icon",
+                    "reason",
+                  ],
+                },
+              },
+            },
+            required: ["habits"],
+          },
         }),
       },
     });

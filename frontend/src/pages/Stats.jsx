@@ -8,6 +8,7 @@ import CategoryPieChart from "../components/CategoryPieChart.jsx";
 import AIChat from "../components/AIChat.jsx";
 import LoadingSpinner from "../components/LoadingSpinner.jsx";
 import { Trophy, Flame, TrendingDown } from "lucide-react";
+import HabitIcon from "../components/HabitIcon.jsx";
 
 export default function Stats() {
   const [stats, setStats] = useState(null);
@@ -49,8 +50,7 @@ export default function Stats() {
       byDate[key] = 0;
     }
     for (const l of logs) {
-      if (byDate[l.completedDate] !== undefined)
-        byDate[l.completedDate] += 1;
+      if (byDate[l.completedDate] !== undefined) byDate[l.completedDate] += 1;
     }
     return Object.entries(byDate).map(([k, v]) => ({
       label: format(parseISO(k), "MMM d"),
@@ -86,14 +86,14 @@ export default function Stats() {
   if (loading || !stats) return <LoadingSpinner full />;
 
   const sortedByStreak = [...stats.perHabit].sort(
-    (a, b) => b.currentStreak - a.currentStreak
+    (a, b) => b.currentStreak - a.currentStreak,
   );
   const best = sortedByStreak[0];
   const sortedByComp = [...stats.perHabit].sort(
-    (a, b) => b.completions30d - a.completions30d
+    (a, b) => b.completions30d - a.completions30d,
   );
   const longestLongest = [...stats.perHabit].sort(
-    (a, b) => b.longestStreak - a.longestStreak
+    (a, b) => b.longestStreak - a.longestStreak,
   )[0];
   const worst = [...stats.perHabit]
     .filter((s) => s.completions30d < 30)
@@ -128,11 +128,11 @@ export default function Stats() {
                   Best streak
                 </div>
                 <div className="mt-2 flex items-center gap-3">
-                  <span className="text-3xl">{best.icon}</span>
+                  <span className="text-3xl">
+                    <HabitIcon icon={best.icon} size={28} />
+                  </span>
                   <div>
-                    <div className="font-semibold">
-                      {best.name}
-                    </div>
+                    <div className="font-semibold">{best.name}</div>
                     <div className="text-sm text-muted">
                       {best.currentStreak} day
                       {best.currentStreak === 1 ? "" : "s"} running
@@ -148,11 +148,11 @@ export default function Stats() {
                   Longest ever
                 </div>
                 <div className="mt-2 flex items-center gap-3">
-                  <span className="text-3xl">{longestLongest.icon}</span>
+                  <span className="text-3xl">
+                    <HabitIcon icon={longestLongest.icon} size={28} />
+                  </span>
                   <div>
-                    <div className="font-semibold">
-                      {longestLongest.name}
-                    </div>
+                    <div className="font-semibold">{longestLongest.name}</div>
                     <div className="text-sm text-muted">
                       {longestLongest.longestStreak} day record
                     </div>
@@ -167,11 +167,11 @@ export default function Stats() {
                   Needs attention
                 </div>
                 <div className="mt-2 flex items-center gap-3">
-                  <span className="text-3xl">{worst.icon}</span>
+                  <span className="text-3xl">
+                    <HabitIcon icon={worst.icon} size={28} />
+                  </span>
                   <div>
-                    <div className="font-semibold">
-                      {worst.name}
-                    </div>
+                    <div className="font-semibold">{worst.name}</div>
                     <div className="text-sm text-muted">
                       {worst.completions30d}/30 in the last 30 days
                     </div>
@@ -199,14 +199,19 @@ export default function Stats() {
                     <div key={s.habitId}>
                       <div className="flex items-center justify-between text-sm mb-1">
                         <div className="flex items-center gap-2 min-w-0">
-                          <span className="text-lg shrink-0">{s.icon}</span>
+                          <span className="text-lg shrink-0">
+                            <HabitIcon icon={s.icon} size={20} />
+                          </span>
                           <span className="truncate">{s.name}</span>
                         </div>
                         <span className="text-muted text-xs">
                           {s.completions30d}/30 · {pct}%
                         </span>
                       </div>
-                      <div className="h-2 rounded-full overflow-hidden" style={{ background: "var(--chip-bg)" }}>
+                      <div
+                        className="h-2 rounded-full overflow-hidden"
+                        style={{ background: "var(--chip-bg)" }}
+                      >
                         <div
                           className="h-full rounded-full transition-all"
                           style={{

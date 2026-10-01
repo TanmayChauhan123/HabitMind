@@ -1,4 +1,5 @@
 import { Flame, Trophy, Target } from "lucide-react";
+import HabitIcon from "./HabitIcon.jsx";
 
 export default function HabitStatsCard({ stat }) {
   return (
@@ -7,7 +8,7 @@ export default function HabitStatsCard({ stat }) {
         className="w-12 h-12 rounded-xl flex items-center justify-center text-xl shrink-0"
         style={{ background: `${stat.color}26`, color: stat.color }}
       >
-        {stat.icon}
+        <HabitIcon icon={stat.icon} size={20} />
       </div>
       <div className="flex-1 min-w-0">
         <div className="font-medium truncate">{stat.name}</div>

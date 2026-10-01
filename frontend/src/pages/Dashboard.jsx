@@ -14,7 +14,12 @@ import StreakRecoveryCard from "../components/StreakRecoveryCard.jsx";
 import ProgressRing from "../components/ProgressRing.jsx";
 import LoadingSpinner from "../components/LoadingSpinner.jsx";
 import { celebrate, celebrateBig } from "../utils/confetti.js";
-import { streakFromKeys, todayKey, weekKeys } from "../utils/dateHelpers.js";
+import {
+  streakFromKeys,
+  todayKey,
+  weekKeys,
+  last90Days,
+} from "../utils/dateHelpers.js";
 import { useAuth } from "../context/AuthContext.jsx";
 
 export default function Dashboard() {
@@ -52,22 +57,26 @@ export default function Dashboard() {
       setTodayLogs(todayRes.data);
       setWeekLogs(rangeRes.data);
       setHeatmap(heatRes.data);
-
       const byId = {};
-      const start90 = new Date();
-      start90.setDate(start90.getDate() - 89);
-      const s90 = start90.toISOString().slice(0, 10);
-      const e90 = new Date().toISOString().slice(0, 10);
+
+      const days90 = last90Days();
+
       const allRange = await api.get("/logs/range", {
-        params: { start: s90, end: e90 },
+        params: {
+          start: days90[0],
+          end: days90[days90.length - 1],
+        },
       });
+      console.log("ALL RANGE LOGS:", allRange.data);
       for (const h of habitsRes.data) byId[h._id] = [];
       for (const l of allRange.data) {
         if (!byId[l.habitId]) byId[l.habitId] = [];
+
+        console.log("STREAK DATE FROM API:", l.completedDate);
+
         byId[l.habitId].push(l.completedDate);
       }
-      for (const k of Object.keys(byId))
-        byId[k] = byId[k].sort().reverse();
+      for (const k of Object.keys(byId)) byId[k] = byId[k].sort().reverse();
       setAllLogsByHabit(byId);
     } finally {
       setLoading(false);
@@ -80,7 +89,7 @@ export default function Dashboard() {
 
   const completedToday = useMemo(
     () => new Set(todayLogs.map((l) => String(l.habitId))),
-    [todayLogs]
+    [todayLogs],
   );
 
   const weekLogsByHabit = useMemo(() => {
@@ -105,17 +114,17 @@ export default function Dashboard() {
     : 0;
 
   const activeStreaks = Object.values(streaksById).filter(
-    (s) => s.current > 0
+    (s) => s.current > 0,
   ).length;
   const bestStreak = Math.max(
     0,
-    ...Object.values(streaksById).map((s) => s.longest)
+    ...Object.values(streaksById).map((s) => s.longest),
   );
 
   const weekTotal = habits.length * 7;
   const weekDone = Object.values(weekLogsByHabit).reduce(
     (s, arr) => s + arr.length,
-    0
+    0,
   );
   const weekRate = weekTotal ? Math.round((weekDone / weekTotal) * 100) : 0;
 
@@ -124,7 +133,7 @@ export default function Dashboard() {
     if (recoveryHabit) return;
     if (!habits.length) return;
     const dismissed = JSON.parse(
-      localStorage.getItem("recovery-dismissed") || "{}"
+      localStorage.getItem("recovery-dismissed") || "{}",
     );
     for (const h of habits) {
       const s = streaksById[h._id];
@@ -144,7 +153,7 @@ export default function Dashboard() {
         data: { habitId: habit._id, date: today },
       });
       setTodayLogs((logs) =>
-        logs.filter((l) => String(l.habitId) !== String(habit._id))
+        logs.filter((l) => String(l.habitId) !== String(habit._id)),
       );
       setAllLogsByHabit((prev) => {
         const next = { ...prev };
@@ -175,7 +184,9 @@ export default function Dashboard() {
     try {
       if (editing) {
         const res = await api.put(`/habits/${editing._id}`, data);
-        setHabits((hs) => hs.map((h) => (h._id === res.data._id ? res.data : h)));
+        setHabits((hs) =>
+          hs.map((h) => (h._id === res.data._id ? res.data : h)),
+        );
       } else {
         const res = await api.post("/habits", data);
         setHabits((hs) => [...hs, res.data]);
@@ -192,7 +203,7 @@ export default function Dashboard() {
     await api.delete(`/habits/${habit._id}`);
     setHabits((hs) => hs.filter((h) => h._id !== habit._id));
     setTodayLogs((ls) =>
-      ls.filter((l) => String(l.habitId) !== String(habit._id))
+      ls.filter((l) => String(l.habitId) !== String(habit._id)),
     );
     setAllLogsByHabit((prev) => {
       const next = { ...prev };
@@ -206,7 +217,8 @@ export default function Dashboard() {
     const res = await api.put(`/habits/${habit._id}/archive`);
     if (res.data.isArchived)
       setHabits((hs) => hs.filter((h) => h._id !== habit._id));
-    else setHabits((hs) => hs.map((h) => (h._id === res.data._id ? res.data : h)));
+    else
+      setHabits((hs) => hs.map((h) => (h._id === res.data._id ? res.data : h)));
   };
 
   const acceptSuggestion = async (s) => {
@@ -267,12 +279,12 @@ export default function Dashboard() {
           habit={recoveryHabit}
           onDismiss={() => {
             const dismissed = JSON.parse(
-              localStorage.getItem("recovery-dismissed") || "{}"
+              localStorage.getItem("recovery-dismissed") || "{}",
             );
             dismissed[recoveryHabit._id] = Date.now();
             localStorage.setItem(
               "recovery-dismissed",
-              JSON.stringify(dismissed)
+              JSON.stringify(dismissed),
             );
             setRecoveryHabit(null);
           }}

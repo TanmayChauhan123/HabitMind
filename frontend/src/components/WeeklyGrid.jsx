@@ -1,5 +1,6 @@
 import { weekKeys } from "../utils/dateHelpers.js";
 import { Check } from "lucide-react";
+import HabitIcon from "./HabitIcon.jsx";
 
 export default function WeeklyGrid({ habits, logsByHabit, days: customDays }) {
   const days = customDays || weekKeys();
@@ -24,7 +25,9 @@ export default function WeeklyGrid({ habits, logsByHabit, days: customDays }) {
             <div
               key={d.key}
               className={`text-center text-xs font-medium ${
-                d.key === todayKey ? "text-brand-600 dark:text-brand-300" : "text-muted"
+                d.key === todayKey
+                  ? "text-brand-600 dark:text-brand-300"
+                  : "text-muted"
               }`}
             >
               <div>{d.label}</div>
@@ -45,7 +48,7 @@ export default function WeeklyGrid({ habits, logsByHabit, days: customDays }) {
                   className="w-7 h-7 rounded-lg flex items-center justify-center text-base shrink-0"
                   style={{ background: `${h.color}26`, color: h.color }}
                 >
-                  {h.icon}
+                  <HabitIcon icon={h.icon} size={18} />
                 </span>
                 <span className="text-sm truncate">{h.name}</span>
               </div>
@@ -59,12 +62,15 @@ export default function WeeklyGrid({ habits, logsByHabit, days: customDays }) {
                         isDone
                           ? "text-white shadow-md"
                           : future
-                          ? "text-faint"
-                          : "text-faint"
+                            ? "text-faint"
+                            : "text-faint"
                       }`}
                       style={
                         isDone
-                          ? { background: h.color, boxShadow: `0 4px 12px ${h.color}55` }
+                          ? {
+                              background: h.color,
+                              boxShadow: `0 4px 12px ${h.color}55`,
+                            }
                           : { background: "var(--chip-bg)" }
                       }
                     >

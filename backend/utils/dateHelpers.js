@@ -29,7 +29,7 @@ export const lastNDays = (n) => {
   return eachDayOfInterval({ start, end }).map(toDateKey);
 };
 
-export const calcStreak = (sortedDateKeys) => {
+export const streakFromKeys = (sortedDateKeys) => {
   // sortedDateKeys -> newest first , unique
 
   if (!sortedDateKeys.length) {
@@ -90,3 +90,5 @@ export const calcStreak = (sortedDateKeys) => {
 
   return { current, longest };
 };
+
+export const calcStreak = streakFromKeys;

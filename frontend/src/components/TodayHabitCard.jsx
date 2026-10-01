@@ -1,6 +1,7 @@
 import { Check, Flame, Pencil, Trash2, Archive } from "lucide-react";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import HabitIcon from "./HabitIcon.jsx";
 
 export default function TodayHabitCard({
   habit,
@@ -40,16 +41,17 @@ export default function TodayHabitCard({
 
   return (
     <div
-      className={`card p-4 flex items-center gap-4 transition ${completed
-        ? "ring-1 ring-brand-500/10 bg-brand-500/5 dark:bg-brand-500/3"
-        : ""
-        }`}
+      className={`card p-4 flex items-center gap-4 transition ${
+        completed
+          ? "ring-1 ring-brand-500/10 bg-brand-500/5 dark:bg-brand-500/3"
+          : ""
+      }`}
     >
       <div
         className="w-11 h-11 rounded-xl flex items-center justify-center text-xl shrink-0"
         style={{ background: `${habit.color}26`, color: habit.color }}
       >
-        {habit.icon}
+        <HabitIcon icon={habit.icon} size={22} />
       </div>
 
       <div className="flex-1 min-w-0">
@@ -127,16 +129,17 @@ export default function TodayHabitCard({
                 </button>
               </div>
             </>,
-            document.body
+            document.body,
           )}
       </div>
 
       <button
         onClick={onToggle}
-        className={`shrink-0 w-11 h-11 rounded-full flex items-center justify-center transition ${completed
-          ? "bg-gradient-to-br from-brand-500 to-brand-700 text-white shadow-lg shadow-brand-500/40 animate-pop"
-          : "bg-brand-100 border-2 border-border-brand-400 text-brand-400 hover:border-brand-400 hover:text-brand-400"
-          }`}
+        className={`shrink-0 w-11 h-11 rounded-full flex items-center justify-center transition ${
+          completed
+            ? "bg-gradient-to-br from-brand-500 to-brand-700 text-white shadow-lg shadow-brand-500/40 animate-pop"
+            : "bg-brand-100 border-2 border-border-brand-400 text-brand-400 hover:border-brand-400 hover:text-brand-400"
+        }`}
         aria-label={completed ? "Mark incomplete" : "Mark complete"}
       >
         <Check size={20} strokeWidth={3} />
