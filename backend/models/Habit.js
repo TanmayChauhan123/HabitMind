@@ -6,6 +6,7 @@ const CATEGORIES = [
   "Learning",
   "Mindfulness",
   "Productivity",
+  "Lifestyle",
   "Social",
   "Finance",
   "Creative",
@@ -22,7 +23,7 @@ const habitSchema = new mongoose.Schema(
     },
 
     name: { type: String, required: true, trim: true },
-    description: { type: String, defaults: "", trim: true },
+    description: { type: String, default: "", trim: true },
     category: {
       type: String,
       enum: CATEGORIES,
