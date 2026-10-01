@@ -52,10 +52,11 @@ export const unmarkComplete = async (req, res) => {
 
 export const getToday = async (req, res) => {
   try {
-    // all logs for today
+    const date = req.query.date || todayKey();
+
     const logs = await HabitLog.find({
       userId: req.user._id,
-      completedDate: todayKey(),
+      completedDate: date,
     });
 
     res.json(logs);
