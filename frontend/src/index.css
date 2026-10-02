@@ -34,7 +34,8 @@ html,
 body,
 #root {
   width: 100%;
-  min-width: 100%;
+  max-width: 100%;
+  min-width: 0;
   margin: 0;
   padding: 0;
 }
@@ -44,7 +45,11 @@ body {
 }
 
 #root {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
   min-height: 100dvh;
+  overflow-x: hidden;
 }
 
 /* ---------- Theme tokens (light default) ---------- */
@@ -506,5 +511,33 @@ body {
 @media (max-width: 640px) {
   * {
     min-width: 0;
+  }
+}
+/* Mobile responsive fix */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+img,
+svg,
+video,
+canvas {
+  max-width: 100%;
+}
+
+@media (max-width: 640px) {
+  * {
+    min-width: 0;
+  }
+
+  main,
+  section,
+  article,
+  header,
+  nav,
+  aside {
+    max-width: 100%;
   }
 }
