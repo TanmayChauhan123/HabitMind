@@ -44,7 +44,7 @@ export default function Landing() {
   if (user) return <Navigate to="/dashboard" replace />;
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen overflow-x-hidden">
       <header className="max-w-6xl mx-auto px-6 py-5 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 text-white flex items-center justify-center shadow-lg shadow-brand-500/30">
@@ -52,7 +52,7 @@ export default function Landing() {
           </div>
           <span className="font-semibold text-lg">HabitMind</span>
         </div>
-        <nav className="flex items-center gap-2">
+        <nav className="flex items-center gap-1.5 sm:gap-2 shrink-0">
           <button
             onClick={toggle}
             className="btn-ghost p-2.5"
@@ -60,10 +60,11 @@ export default function Landing() {
           >
             {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
           </button>
-          <Link to="/login" className="btn-ghost">
+          <Link to="/login" className="btn-ghost px-2.5 sm:px-3">
             Log in
           </Link>
-          <Link to="/register" className="btn-primary">
+
+          <Link to="/register" className="btn-primary px-3 sm:px-4">
             Get started
           </Link>
         </nav>
