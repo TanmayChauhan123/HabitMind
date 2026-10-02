@@ -31,7 +31,7 @@ export default function MonthlyBarChart({ data }) {
               tick={{ fontSize: 11, fill: tick }}
               axisLine={false}
               tickLine={false}
-              interval={3}
+              interval={window.innerWidth < 640 ? 5 : 3}
             />
             <YAxis
               tick={{ fontSize: 12, fill: tick }}
@@ -40,9 +40,17 @@ export default function MonthlyBarChart({ data }) {
               allowDecimals={false}
             />
             <Tooltip
-              cursor={{ fill: theme === "dark" ? "rgba(255,255,255,0.04)" : "rgba(15,15,27,0.04)" }}
+              cursor={{
+                fill:
+                  theme === "dark"
+                    ? "rgba(255,255,255,0.04)"
+                    : "rgba(15,15,27,0.04)",
+              }}
               contentStyle={{
-                background: theme === "dark" ? "rgba(20,20,36,0.95)" : "rgba(255,255,255,0.95)",
+                background:
+                  theme === "dark"
+                    ? "rgba(20,20,36,0.95)"
+                    : "rgba(255,255,255,0.95)",
                 border: `1px solid ${grid}`,
                 borderRadius: 12,
                 fontSize: 12,
