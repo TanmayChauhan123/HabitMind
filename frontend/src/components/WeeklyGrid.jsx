@@ -16,8 +16,8 @@ export default function WeeklyGrid({ habits, logsByHabit, days: customDays }) {
 
   return (
     <div className="card p-5 overflow-x-auto">
-      <div className="min-w-[520px]">
-        <div className="grid grid-cols-[180px_repeat(7,minmax(0,1fr))] gap-2 items-center mb-2">
+      <div className="min-w-[430px] md:min-w-[520px]">
+        <div className="grid grid-cols-[130px_repeat(7,minmax(0,1fr))] md:grid-cols-[180px_repeat(7,minmax(0,1fr))] gap-1 md:gap-2 items-center mb-2">
           <div className="text-xs font-medium text-muted uppercase tracking-wider">
             Habit
           </div>
@@ -41,7 +41,7 @@ export default function WeeklyGrid({ habits, logsByHabit, days: customDays }) {
           return (
             <div
               key={h._id}
-              className="grid grid-cols-[180px_repeat(7,minmax(0,1fr))] gap-2 items-center py-2 border-t divider"
+              className="grid grid-cols-[130px_repeat(7,minmax(0,1fr))] md:grid-cols-[180px_repeat(7,minmax(0,1fr))] gap-1 md:gap-2 items-center py-2 border-t divider"
             >
               <div className="flex items-center gap-2 min-w-0">
                 <span
