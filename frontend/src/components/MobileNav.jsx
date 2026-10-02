@@ -44,7 +44,7 @@ export default function MobileNav() {
           </button>
         </div>
       </div>
-      <nav className="md:hidden fixed bottom-0 inset-x-0 z-30 glass border-t divider flex justify-around py-2">
+      <nav className="md:hidden fixed bottom-0 inset-x-0 z-30 glass border-t divider flex py-2">
         {[
           { to: "/dashboard", label: "Home", icon: LayoutDashboard },
           { to: "/habits", label: "Habits", icon: ListChecks },
@@ -56,7 +56,7 @@ export default function MobileNav() {
             key={to}
             to={to}
             className={({ isActive }) =>
-              `flex flex-col items-center gap-0.5 px-4 py-1.5 rounded-lg text-xs ${
+              `flex-1 min-w-0 flex flex-col items-center gap-0.5 py-1.5 rounded-lg text-xs ${
                 isActive ? "text-brand-700 dark:text-brand-300" : "text-faint"
               }`
             }

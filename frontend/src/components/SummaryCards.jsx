@@ -1,7 +1,7 @@
 import { ListChecks, Flame, Trophy, TrendingUp } from "lucide-react";
 
 const Card = ({ icon: Icon, label, value, iconBg, iconFg }) => (
-  <div className="card p-4 flex items-center gap-3 overflow-hidden relative">
+  <div className="card min-w-0 p-4 flex items-center gap-3 overflow-hidden relative">
     <div
       className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
       style={{ background: iconBg, color: iconFg }}
@@ -15,9 +15,14 @@ const Card = ({ icon: Icon, label, value, iconBg, iconFg }) => (
   </div>
 );
 
-export default function SummaryCards({ totalHabits, activeStreaks, bestStreak, weekRate }) {
+export default function SummaryCards({
+  totalHabits,
+  activeStreaks,
+  bestStreak,
+  weekRate,
+}) {
   return (
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-3 min-w-0">
       <Card
         icon={ListChecks}
         label="Total habits"
