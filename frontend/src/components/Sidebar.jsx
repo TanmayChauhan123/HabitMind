@@ -48,7 +48,7 @@ export default function Sidebar() {
   };
 
   return (
-    <aside className="hidden md:flex md:flex-col w-64 fixed inset-y-0 left-0 z-30 bg-[var(--bg-base)] border-r">
+    <aside className="hidden md:flex md:flex-col w-64 fixed inset-y-0 left-0 z-30 bg-[var(--bg-base)]">
       <div className="px-6 py-5 border-b divider">
         <div className="flex items-center gap-2">
           <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 text-white flex items-center justify-center shadow-lg shadow-brand-500/30">
