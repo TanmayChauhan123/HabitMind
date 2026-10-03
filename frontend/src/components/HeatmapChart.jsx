@@ -39,14 +39,14 @@ export default function HeatmapChart({ data = [] }) {
 
   return (
     <div className="card p-5">
-      <div className="flex items-center justify-between mb-3">
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between mb-3">
         <div>
           <div className="text-sm font-medium">Consistency</div>
           <div className="text-xs text-muted">
             {totalCount} completions in the last 90 days
           </div>
         </div>
-        <div className="flex items-center gap-1.5 text-xs text-muted">
+        <div className="flex items-center gap-1.5 text-xs text-muted flex-wrap">
           Less
           {[0, 0.2, 0.5, 0.8, 1].map((r, i) => (
             <span
