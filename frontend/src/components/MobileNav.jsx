@@ -18,7 +18,7 @@ export default function MobileNav() {
   const { theme, toggle } = useTheme();
   return (
     <>
-      <div className="md:hidden sticky top-0 z-20 glass border-b divider px-4 py-3 flex items-center justify-between">
+      <div className="md:hidden sticky top-0 z-20 bg-[var(--bg-base)] border-b divider px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-500 to-brand-700 text-white flex items-center justify-center shadow-md shadow-brand-500/30">
             <Sparkles size={16} />
@@ -44,7 +44,7 @@ export default function MobileNav() {
           </button>
         </div>
       </div>
-      <nav className="md:hidden fixed bottom-0 inset-x-0 z-30 glass border-t divider flex py-2">
+      <nav className="md:hidden fixed bottom-0 inset-x-0 z-30 bg-[var(--bg-base)] border-t divider flex py-2">
         {[
           { to: "/dashboard", label: "Home", icon: LayoutDashboard },
           { to: "/habits", label: "Habits", icon: ListChecks },

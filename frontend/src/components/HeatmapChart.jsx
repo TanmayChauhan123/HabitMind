@@ -59,23 +59,23 @@ export default function HeatmapChart({ data = [] }) {
         </div>
       </div>
 
-      <div className="overflow-x-auto">
-        <div className="flex gap-1">
+      <div className="w-full overflow-hidden">
+        <div className="flex w-full justify-between gap-0.5">
           {cols.map((col, ci) => (
-            <div key={ci} className="flex flex-col gap-1">
+            <div key={ci} className="flex min-w-0 flex-1 flex-col gap-1">
               {col.map((d, ri) =>
                 d ? (
                   <div
                     key={ri}
-                    className="w-3.5 h-3.5 rounded-sm transition-colors"
+                    className="aspect-square w-full rounded-sm transition-colors"
                     style={{ background: levelColor(d.count, max) }}
                     title={`${format(parseISO(d.date), "MMM d, yyyy")} — ${d.count} completion${
                       d.count === 1 ? "" : "s"
                     }`}
                   />
                 ) : (
-                  <div key={ri} className="w-3.5 h-3.5" />
-                )
+                  <div key={ri} className="aspect-square w-full" />
+                ),
               )}
             </div>
           ))}
